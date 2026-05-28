@@ -1,183 +1,352 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Atalhos</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apps · borjaili</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-2: #111827;
+      --surf: #1a2030;
+      --surf-2: #232b3d;
+      --ink: #f3f4f6;
+      --ink-2: #cbd5e1;
+      --muted: #8392ad;
+      --accent: #3b82f6;
+      --accent-2: #6366f1;
+    }
+
+    html, body { min-height: 100vh; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -.01em;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 0%, rgba(59, 130, 246, .25), transparent 60%),
+        radial-gradient(ellipse 50% 50% at 85% 30%, rgba(99, 102, 241, .18), transparent 60%),
+        radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139, 92, 246, .15), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---------- Header ---------- */
+    header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, .12);
+      border: 1px solid rgba(59, 130, 246, .25);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      margin-bottom: 24px;
+    }
+    .badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, .25);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(96, 165, 250, .25); }
+      50%      { box-shadow: 0 0 0 7px rgba(96, 165, 250, .08); }
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -.05em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    h1 .gradient {
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ---------- Stats ---------- */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      color: var(--ink);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 700;
+    }
+
+    /* ---------- Cards grid ---------- */
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--surf), var(--surf-2));
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 24px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s cubic-bezier(.25, .8, .25, 1), border-color .2s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--card-glow, rgba(59, 130, 246, .15)) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, .14);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+      width: fit-content;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.6;
+      flex-grow: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-foot {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .card-path {
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .card-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-2);
+      transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), background .2s, color .2s;
+    }
+    .card:hover .card-arrow {
+      transform: translateX(4px);
+      background: rgba(96, 165, 250, .18);
+      color: #93c5fd;
+    }
+
+    /* Per-app colors */
+    .card.shortcuts { --card-glow: rgba(99, 102, 241, .18); }
+    .card.shortcuts .card-icon { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+    .card.pedicalc { --card-glow: rgba(59, 130, 246, .18); }
+    .card.pedicalc .card-icon { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+
+    /* Footer */
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    footer a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    footer code {
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      background: rgba(255, 255, 255, .06);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 11.5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="phone-frame">
-        <div class="status-bar">
-            <span class="status-time" id="status-time">9:41</span>
-            <div class="status-notch"></div>
-            <div class="status-right">
-                <svg class="status-icon" viewBox="0 0 18 12" width="18" height="12">
-                    <path fill="currentColor" d="M1 8h2v3H1zM5 6h2v5H5zM9 4h2v7H9zM13 1h2v10h-2z"/>
-                </svg>
-                <svg class="status-icon" viewBox="0 0 16 12" width="16" height="12">
-                    <path fill="currentColor" d="M8 3.2c1.9 0 3.6.7 4.9 1.9l1.1-1.1C12.4 2.5 10.3 1.6 8 1.6S3.6 2.5 2 4l1.1 1.1C4.4 3.9 6.1 3.2 8 3.2zM8 6.4c1 0 2 .4 2.7 1.1l1.1-1.1C10.7 5.4 9.4 4.8 8 4.8s-2.7.6-3.8 1.6l1.1 1.1C6 6.8 7 6.4 8 6.4zM8 9.6l2-2c-.6-.5-1.3-.8-2-.8s-1.4.3-2 .8l2 2z"/>
-                </svg>
-                <div class="battery">
-                    <div class="battery-body"><div class="battery-level"></div></div>
-                    <div class="battery-tip"></div>
-                </div>
-            </div>
+  <div class="shell">
+
+    <header>
+      <div class="badge">
+        <span class="dot"></span>
+        Coleção de Web Apps
+      </div>
+      <h1>Apps de <span class="gradient">borjaili</span></h1>
+      <p class="subtitle">
+        Coleção de aplicações web estáticas — sem build, sem servidor, sem dependências.
+        Cada app vive no seu próprio diretório e pode ser acessado diretamente pelo GitHub Pages.
+      </p>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-num" id="stat-apps">2</span><span class="stat-label">Apps</span></div>
+        <div class="stat"><span class="stat-num">0</span><span class="stat-label">Dependências</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Estático</span></div>
+      </div>
+    </header>
+
+    <main class="apps">
+
+      <a class="card shortcuts" href="atalhos/">
+        <div class="card-icon"><i class="fas fa-bolt"></i></div>
+        <span class="card-tag">UI Clone</span>
+        <h2 class="card-title">Atalhos · Shortcuts</h2>
+        <p class="card-desc">
+          Clone fiel do app <strong>Atalhos</strong> do iPhone. Cards coloridos, pastas,
+          galeria, modo seleção e visual iOS completo (status bar, blur, transições).
+        </p>
+        <div class="card-foot">
+          <span class="card-path">/atalhos/</span>
+          <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
         </div>
+      </a>
 
-        <div class="app" id="app">
-            <!-- Shortcuts Tab -->
-            <div class="tab-content active" id="tab-shortcuts">
-                <div class="navbar">
-                    <button class="nav-btn nav-left" id="folders-btn">
-                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6.5c0-1.4 1.1-2.5 2.5-2.5h3.4c.7 0 1.4.3 1.9.8L12 6h6.5C19.9 6 21 7.1 21 8.5v9c0 1.4-1.1 2.5-2.5 2.5h-13C4.1 20 3 18.9 3 17.5v-11z"/></svg>
-                    </button>
-                    <h1 class="nav-title">Atalhos</h1>
-                    <div class="nav-right">
-                        <button class="nav-btn" id="select-btn">Selecionar</button>
-                        <button class="nav-btn icon-btn" id="add-btn">
-                            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="search-container">
-                    <div class="search-bar">
-                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        <input type="text" placeholder="Buscar Atalhos e Apps" id="search-input">
-                    </div>
-                </div>
-
-                <div class="folder-pill-container">
-                    <div class="folder-pill active" data-folder="all">
-                        <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M3 6.5C3 5.1 4.1 4 5.5 4h3.4c.7 0 1.4.3 1.9.8L12 6h6.5C19.9 6 21 7.1 21 8.5v9c0 1.4-1.1 2.5-2.5 2.5h-13C4.1 20 3 18.9 3 17.5v-11z"/></svg>
-                        <span>Todos os Atalhos</span>
-                    </div>
-                </div>
-
-                <div class="content-area">
-                    <div class="shortcuts-grid" id="shortcuts-grid"></div>
-                </div>
-            </div>
-
-            <!-- Automations Tab -->
-            <div class="tab-content" id="tab-automations">
-                <div class="navbar">
-                    <h1 class="nav-title">Automações</h1>
-                    <div class="nav-right">
-                        <button class="nav-btn icon-btn">
-                            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="content-area">
-                    <div class="automations-empty">
-                        <div class="auto-icon">
-                            <svg viewBox="0 0 64 64" width="80" height="80"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M22 22h20v4H22zm0 8h20v4H22zm0 8h14v4H22z"/></svg>
-                        </div>
-                        <h2>Automações</h2>
-                        <p>Crie automações pessoais e do lar que serão executadas automaticamente.</p>
-                        <button class="primary-btn">Nova Automação</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gallery Tab -->
-            <div class="tab-content" id="tab-gallery">
-                <div class="navbar">
-                    <h1 class="nav-title">Galeria</h1>
-                </div>
-                <div class="search-container">
-                    <div class="search-bar">
-                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        <input type="text" placeholder="Buscar na Galeria">
-                    </div>
-                </div>
-                <div class="content-area">
-                    <div class="gallery-section">
-                        <div class="gallery-header">
-                            <h2>Atalhos em Destaque</h2>
-                            <button class="link-btn">Ver Tudo</button>
-                        </div>
-                        <div class="gallery-scroll" id="gallery-featured"></div>
-                    </div>
-                    <div class="gallery-section">
-                        <div class="gallery-header">
-                            <h2>Atalhos Essenciais</h2>
-                            <button class="link-btn">Ver Tudo</button>
-                        </div>
-                        <div class="gallery-scroll" id="gallery-essentials"></div>
-                    </div>
-                    <div class="gallery-section">
-                        <div class="gallery-header">
-                            <h2>Atalhos de Produtividade</h2>
-                            <button class="link-btn">Ver Tudo</button>
-                        </div>
-                        <div class="gallery-scroll" id="gallery-productivity"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab Bar -->
-            <div class="tab-bar">
-                <button class="tab-item active" data-tab="shortcuts">
-                    <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M4 4h7v7H4zm9 0h7v7h-7zm-9 9h7v7H4zm9 0h7v7h-7z"/></svg>
-                    <span>Atalhos</span>
-                </button>
-                <button class="tab-item" data-tab="automations">
-                    <svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M8 8h8v2H8zm0 3h8v2H8zm0 3h5v2H8z"/></svg>
-                    <span>Automação</span>
-                </button>
-                <button class="tab-item" data-tab="gallery">
-                    <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3 3.5-4.5L19 18H5l3.5-4.5z"/></svg>
-                    <span>Galeria</span>
-                </button>
-            </div>
-
-            <!-- Folders Side Panel -->
-            <div class="folders-panel" id="folders-panel">
-                <div class="folders-header">
-                    <h2>Pastas</h2>
-                    <button class="close-btn" id="close-folders">Concluído</button>
-                </div>
-                <div class="folders-list" id="folders-list"></div>
-            </div>
-            <div class="overlay" id="overlay"></div>
-
-            <!-- Add Shortcut Modal -->
-            <div class="modal" id="add-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button class="modal-btn" id="cancel-add">Cancelar</button>
-                        <h3>Novo Atalho</h3>
-                        <button class="modal-btn primary" id="save-add">Adicionar</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Nome do Atalho</label>
-                            <input type="text" id="new-name" placeholder="Ex: Bom Dia">
-                        </div>
-                        <div class="form-group">
-                            <label>Ícone</label>
-                            <div class="icon-picker" id="icon-picker"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Cor</label>
-                            <div class="color-picker" id="color-picker"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Run Shortcut Toast -->
-            <div class="toast" id="toast"></div>
+      <a class="card pedicalc" href="pedicalc/">
+        <div class="card-icon"><i class="fas fa-stethoscope"></i></div>
+        <span class="card-tag">Ferramenta Clínica</span>
+        <h2 class="card-title">PediCalc</h2>
+        <p class="card-desc">
+          Calculadora pediátrica avançada. Doses por peso com teto adulto automático,
+          fluidoterapia (Holliday-Segar, Plano C), antimicrobianos por indicação e
+          protocolos VIP personalizados.
+        </p>
+        <div class="card-foot">
+          <span class="card-path">/pedicalc/</span>
+          <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
         </div>
+      </a>
 
-        <div class="home-indicator"></div>
-    </div>
+    </main>
 
-    <script src="app.js"></script>
+    <footer>
+      <p>
+        Hospedado via <strong>GitHub Pages</strong> ·
+        Cada subdiretório é uma aplicação independente
+      </p>
+      <p style="margin-top:6px">
+        Para adicionar um novo app: crie <code>./nome-do-app/index.html</code> e dê push.
+      </p>
+    </footer>
+
+  </div>
 </body>
 </html>
