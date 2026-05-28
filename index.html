@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Atalhos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <span class="status-time" id="status-time">9:41</span>
+            <div class="status-notch"></div>
+            <div class="status-right">
+                <svg class="status-icon" viewBox="0 0 18 12" width="18" height="12">
+                    <path fill="currentColor" d="M1 8h2v3H1zM5 6h2v5H5zM9 4h2v7H9zM13 1h2v10h-2z"/>
+                </svg>
+                <svg class="status-icon" viewBox="0 0 16 12" width="16" height="12">
+                    <path fill="currentColor" d="M8 3.2c1.9 0 3.6.7 4.9 1.9l1.1-1.1C12.4 2.5 10.3 1.6 8 1.6S3.6 2.5 2 4l1.1 1.1C4.4 3.9 6.1 3.2 8 3.2zM8 6.4c1 0 2 .4 2.7 1.1l1.1-1.1C10.7 5.4 9.4 4.8 8 4.8s-2.7.6-3.8 1.6l1.1 1.1C6 6.8 7 6.4 8 6.4zM8 9.6l2-2c-.6-.5-1.3-.8-2-.8s-1.4.3-2 .8l2 2z"/>
+                </svg>
+                <div class="battery">
+                    <div class="battery-body"><div class="battery-level"></div></div>
+                    <div class="battery-tip"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app" id="app">
+            <!-- Shortcuts Tab -->
+            <div class="tab-content active" id="tab-shortcuts">
+                <div class="navbar">
+                    <button class="nav-btn nav-left" id="folders-btn">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6.5c0-1.4 1.1-2.5 2.5-2.5h3.4c.7 0 1.4.3 1.9.8L12 6h6.5C19.9 6 21 7.1 21 8.5v9c0 1.4-1.1 2.5-2.5 2.5h-13C4.1 20 3 18.9 3 17.5v-11z"/></svg>
+                    </button>
+                    <h1 class="nav-title">Atalhos</h1>
+                    <div class="nav-right">
+                        <button class="nav-btn" id="select-btn">Selecionar</button>
+                        <button class="nav-btn icon-btn" id="add-btn">
+                            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <div class="search-bar">
+                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" placeholder="Buscar Atalhos e Apps" id="search-input">
+                    </div>
+                </div>
+
+                <div class="folder-pill-container">
+                    <div class="folder-pill active" data-folder="all">
+                        <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M3 6.5C3 5.1 4.1 4 5.5 4h3.4c.7 0 1.4.3 1.9.8L12 6h6.5C19.9 6 21 7.1 21 8.5v9c0 1.4-1.1 2.5-2.5 2.5h-13C4.1 20 3 18.9 3 17.5v-11z"/></svg>
+                        <span>Todos os Atalhos</span>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    <div class="shortcuts-grid" id="shortcuts-grid"></div>
+                </div>
+            </div>
+
+            <!-- Automations Tab -->
+            <div class="tab-content" id="tab-automations">
+                <div class="navbar">
+                    <h1 class="nav-title">Automações</h1>
+                    <div class="nav-right">
+                        <button class="nav-btn icon-btn">
+                            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="automations-empty">
+                        <div class="auto-icon">
+                            <svg viewBox="0 0 64 64" width="80" height="80"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M22 22h20v4H22zm0 8h20v4H22zm0 8h14v4H22z"/></svg>
+                        </div>
+                        <h2>Automações</h2>
+                        <p>Crie automações pessoais e do lar que serão executadas automaticamente.</p>
+                        <button class="primary-btn">Nova Automação</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Tab -->
+            <div class="tab-content" id="tab-gallery">
+                <div class="navbar">
+                    <h1 class="nav-title">Galeria</h1>
+                </div>
+                <div class="search-container">
+                    <div class="search-bar">
+                        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" placeholder="Buscar na Galeria">
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="gallery-section">
+                        <div class="gallery-header">
+                            <h2>Atalhos em Destaque</h2>
+                            <button class="link-btn">Ver Tudo</button>
+                        </div>
+                        <div class="gallery-scroll" id="gallery-featured"></div>
+                    </div>
+                    <div class="gallery-section">
+                        <div class="gallery-header">
+                            <h2>Atalhos Essenciais</h2>
+                            <button class="link-btn">Ver Tudo</button>
+                        </div>
+                        <div class="gallery-scroll" id="gallery-essentials"></div>
+                    </div>
+                    <div class="gallery-section">
+                        <div class="gallery-header">
+                            <h2>Atalhos de Produtividade</h2>
+                            <button class="link-btn">Ver Tudo</button>
+                        </div>
+                        <div class="gallery-scroll" id="gallery-productivity"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab-item active" data-tab="shortcuts">
+                    <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M4 4h7v7H4zm9 0h7v7h-7zm-9 9h7v7H4zm9 0h7v7h-7z"/></svg>
+                    <span>Atalhos</span>
+                </button>
+                <button class="tab-item" data-tab="automations">
+                    <svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M8 8h8v2H8zm0 3h8v2H8zm0 3h5v2H8z"/></svg>
+                    <span>Automação</span>
+                </button>
+                <button class="tab-item" data-tab="gallery">
+                    <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3 3.5-4.5L19 18H5l3.5-4.5z"/></svg>
+                    <span>Galeria</span>
+                </button>
+            </div>
+
+            <!-- Folders Side Panel -->
+            <div class="folders-panel" id="folders-panel">
+                <div class="folders-header">
+                    <h2>Pastas</h2>
+                    <button class="close-btn" id="close-folders">Concluído</button>
+                </div>
+                <div class="folders-list" id="folders-list"></div>
+            </div>
+            <div class="overlay" id="overlay"></div>
+
+            <!-- Add Shortcut Modal -->
+            <div class="modal" id="add-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-btn" id="cancel-add">Cancelar</button>
+                        <h3>Novo Atalho</h3>
+                        <button class="modal-btn primary" id="save-add">Adicionar</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nome do Atalho</label>
+                            <input type="text" id="new-name" placeholder="Ex: Bom Dia">
+                        </div>
+                        <div class="form-group">
+                            <label>Ícone</label>
+                            <div class="icon-picker" id="icon-picker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cor</label>
+                            <div class="color-picker" id="color-picker"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Run Shortcut Toast -->
+            <div class="toast" id="toast"></div>
+        </div>
+
+        <div class="home-indicator"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
