@@ -2118,11 +2118,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .sl-val        { font-size: 13px; }
   .fixed-dose    { padding: 9px 12px; border-radius: 10px; }
 
-  /* Concentração (empilha em mobile) */
-  .conc-panel    { padding: 11px 12px; border-radius: 11px; flex-direction: column; align-items: stretch; gap: 10px; }
-  .conc-row      { justify-content: flex-start; gap: 6px; flex-wrap: wrap; }
-  .ci            { width: 56px; padding: 7px 6px; font-size: 13px; }
-  .btn-sv        { align-self: flex-end; padding: 8px 14px; }
+  /* Concentração (mantém horizontal com wrap natural; inputs ficam compactos) */
+  .conc-panel    { padding: 11px 12px; border-radius: 11px; gap: 8px; align-items: center; }
+  .conc-row      { gap: 6px; flex-wrap: wrap; row-gap: 8px; }
+  .btn-sv        { padding: 8px 14px; }
 
   .obs-line      { font-size: 11.5px; line-height: 1.5; }
   .math-line     { font-size: 10px; padding: 4px 10px; }
@@ -2148,8 +2147,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .calc-body, .score-body { padding: 14px 13px 16px; }
   .calc-desc, .score-desc { font-size: 11.5px; margin-bottom: 12px; }
   .calc-field input, .score-field select { padding: 11px 12px; font-size: 16px; min-height: 44px; }
-  /* Conc inputs precisam permanecer compactos mas focar não pode dar zoom */
-  .ci            { font-size: 16px; }
   .calc-result   { padding: 12px 14px; border-radius: 11px; }
   .calc-result-num { font-size: 2.3rem; }
   .calc-result-unit { font-size: 12px; }
@@ -2203,5 +2200,69 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .shell { padding-top: max(24px, env(safe-area-inset-top, 24px)); }
   /* O Pages não cobre 100% standalone, mas mantém respiração */
   body { background: var(--bg); }
+}
+
+/* ============================================================
+   23) Specificity overrides (final — devem vir DEPOIS dos rules
+       genéricos input[type=number] que tinham width: 100%)
+   ============================================================ */
+
+/* Inputs de concentração: SEMPRE compactos.
+   Especificidade input.ci (0,1,1) = input[type=number] — vence por
+   source order. Combinado com mobile @media. */
+input.ci {
+  width: 58px;
+  padding: 7px 8px;
+  text-align: center;
+  font-size: 16px;        /* iOS: 16px obrigatório (evita zoom) */
+  font-weight: 800;
+  color: var(--conc-input-text);
+  background: var(--conc-input-bg);
+  border: 2px solid var(--conc-border);
+  border-radius: 9px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color .15s, box-shadow .15s;
+  flex: 0 0 auto;         /* não cresce nem encolhe em flex */
+}
+input.ci:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, .2);
+}
+
+@media (max-width: 768px) {
+  input.ci { width: 56px; padding: 7px 6px; }
+}
+@media (max-width: 380px) {
+  input.ci { width: 52px; padding: 6px 4px; font-size: 15.5px; }
+}
+
+/* ============================================================
+   24) Tab scroll fade — sinaliza scroll horizontal nas bordas
+   ============================================================ */
+
+.tabs-row {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fade mask suaviza tabs cortados no edge direito (e esquerdo se scrollar) */
+.tabs-bar {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 28px), transparent 100%);
+}
+
+/* ============================================================
+   25) Alinhamento numérico (números grandes com vírgula decimal)
+   ============================================================ */
+
+.dose-number,
+.basic-num,
+.pc-n,
+.calc-result-num,
+.score-total-num {
+  font-variant-numeric: tabular-nums lining-nums;
+  -webkit-font-feature-settings: 'tnum', 'lnum';
+          font-feature-settings: 'tnum', 'lnum';
 }
 
