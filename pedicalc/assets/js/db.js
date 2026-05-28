@@ -16,6 +16,222 @@
 ============================================================ */
 
 const DB = [
+
+  /* ============================================================
+     EMERGÊNCIAS — grupo "urg" (renderiza em mega-card)
+  ============================================================ */
+
+  /* ---------- Emergências e Reanimação ---------- */
+  {
+    id: 'emergencia', tc: 'urg',
+    name: '🚨 Emergências e Reanimação',
+    icon: 'fas fa-bolt-lightning',
+    items: [
+      { t: 'B', name: 'Adrenalina IM 1:1000 (Anafilaxia)', d: {
+          co: 0.01, max: 0.5, unit: 'ml', via: 'IM (face anterolateral da coxa)',
+          obs: '0,01 mg/kg/dose. Conc: 1mg/ml (1:1000). Repetir a cada 5–15 min se persistir reação.' } },
+      { t: 'B', name: 'Adrenalina IV/IO 1:10.000 (PCR/Bradi)', d: {
+          co: 0.1, max: 10, unit: 'ml', via: 'IV/IO bolus',
+          obs: '0,01 mg/kg/dose (= 0,1 ml/kg). Repetir a cada 3–5 min em PCR. Diluir 1 ml de 1:1000 em 9 ml SF.' } },
+      { t: 'A', name: 'Amiodarona (FV/TV sem pulso)', d: {
+          id: 'amio', base_mg_kg: 5,
+          dc: 50, ml: 1, ig: false, via: 'IV/IO bolus', mx: 300,
+          obs: 'FV/TV refratária ao choque. 5 mg/kg em bolus. Pode repetir 1× (máx total 15 mg/kg). Conc: 50mg/ml.' } },
+      { t: 'B', name: 'Atropina (Bradi/Atropinização)', d: {
+          co: 0.08, max: 2, unit: 'ml', via: 'IV/IO',
+          obs: '0,02 mg/kg/dose. Conc: 0,25mg/ml. Mín 0,1 mg (0,4 ml). Máx 0,5 mg (2 ml). Cuidado abaixo da dose mínima (bradicardia paradoxal).' } },
+      { t: 'A', name: 'Bicarbonato de Sódio 8,4%', d: {
+          id: 'bicarb', base_mg_kg: 1,
+          dc: 1, ml: 1, ig: false, via: 'IV lento (diluir 1:1 em AD)', mx: 50,
+          obs: '1 mEq/kg (= 1 ml/kg de NaHCO3 8,4%). Apenas em PCR prolongado, acidose metabólica grave ou hipercalemia.' } },
+      { t: 'A', name: 'Cálcio Gluconato 10%', d: {
+          id: 'caglu', base_mg_kg: 100,
+          sl: { min: 60, max: 100, step: 10, default: 100 },
+          dc: 100, ml: 1, ig: false, via: 'IV lento (5–10 min)', mx: 2000,
+          obs: '60–100 mg/kg/dose. Conc: 100mg/ml. Cuidado: extravasamento causa necrose. Monitorar FC durante infusão.' } },
+      { t: 'B', name: 'Glicose 25% (Hipoglicemia)', d: {
+          co: 2, max: 100, unit: 'ml', via: 'IV bolus',
+          obs: '2 ml/kg de SG 25% (= 0,5 g/kg de glicose). Alternativa: 5 ml/kg de SG 10%. Confirmar glicemia capilar antes.' } },
+      { t: 'B', name: 'Naloxona (Reversão de Opioide)', d: {
+          co: 0.025, max: 5, unit: 'ml', via: 'IV/IM/SC/IN',
+          obs: '0,01 mg/kg/dose. Conc: 0,4mg/ml. Pode repetir a cada 2–3 min. Cuidado: meia-vida curta, reaparecimento dos sintomas.' } },
+      { t: 'A', name: 'Sulfato de Magnésio 50% (Torsades/Status asmático)', d: {
+          id: 'mgto', base_mg_kg: 25,
+          sl: { min: 25, max: 50, step: 5, default: 25 },
+          dc: 500, ml: 1, ig: false, via: 'IV lento (20 min)', mx: 2000,
+          obs: '25–50 mg/kg/dose. Conc: 500mg/ml. Torsades, status asmático grave, eclâmpsia. Monitorar PA e reflexos.' } }
+    ]
+  },
+
+  /* ---------- Convulsão / Status Epilepticus ---------- */
+  {
+    id: 'convulsao', tc: 'urg',
+    name: '⚡ Convulsão / Status Epilepticus',
+    icon: 'fas fa-brain',
+    items: [
+      { t: 'A', name: 'Diazepam IV', d: {
+          id: 'diaz_iv', base_mg_kg: 0.3,
+          sl: { min: 0.2, max: 0.3, step: 0.05, default: 0.3 },
+          dc: 5, ml: 1, ig: false, via: 'IV lento', mx: 10,
+          obs: '0,2–0,3 mg/kg/dose. Conc: 5mg/ml. Pode repetir a cada 5 min até 3 doses. Cuidado: depressão respiratória.' } },
+      { t: 'B', name: 'Diazepam Retal', d: {
+          co: 0.1, max: 2, unit: 'ml', via: 'Retal',
+          obs: '0,5 mg/kg/dose. Conc: 5mg/ml. Pode usar a ampola IV via retal quando não há acesso venoso.' } },
+      { t: 'B', name: 'Midazolam IM/IN', d: {
+          co: 0.04, max: 2, unit: 'ml', via: 'IM ou Intranasal',
+          obs: '0,2 mg/kg/dose. Conc: 5mg/ml. IN: dividir em narinas (máx 1ml por narina). Pico em 5–10 min.' } },
+      { t: 'A', name: 'Midazolam IV', d: {
+          id: 'midaz_iv', base_mg_kg: 0.1,
+          sl: { min: 0.1, max: 0.2, step: 0.05, default: 0.1 },
+          dc: 5, ml: 1, ig: false, via: 'IV lento', mx: 10,
+          obs: '0,1–0,2 mg/kg/dose. Conc: 5mg/ml. Status refratário: considerar BIC 0,1–0,3 mg/kg/h.' } },
+      { t: 'A', name: 'Fenobarbital IV', d: {
+          id: 'fenob', base_mg_kg: 20,
+          sl: { min: 15, max: 20, step: 1, default: 20 },
+          dc: 100, ml: 1, ig: false, via: 'IV lento (máx 2 mg/kg/min)', mx: 1000,
+          obs: '15–20 mg/kg/dose de ataque. Conc: 100mg/ml. Monitorar respiração e PA. Pode causar hipotensão.' } },
+      { t: 'A', name: 'Fenitoína IV', d: {
+          id: 'fenit', base_mg_kg: 20,
+          sl: { min: 15, max: 20, step: 1, default: 20 },
+          dc: 50, ml: 1, ig: false, via: 'IV em SF 0,9% (NÃO SG!)', mx: 1500,
+          obs: '15–20 mg/kg/dose. Conc: 50mg/ml. Diluir em SF (precipita em SG). Velocidade máx 1 mg/kg/min. Monitorar PA e FC.' } }
+    ]
+  },
+
+  /* ---------- Crise Asmática ---------- */
+  {
+    id: 'asma', tc: 'urg',
+    name: '🫁 Crise Asmática Aguda',
+    icon: 'fas fa-lungs',
+    items: [
+      { t: 'A', name: 'Salbutamol Nebulização', d: {
+          id: 'salb_neb', base_mg_kg: 0.15,
+          sl: { min: 0.1, max: 0.15, step: 0.01, default: 0.15 },
+          dc: 5, ml: 1, ig: true, via: 'Nebulização com O2 6–8 L/min', mx: 5,
+          obs: '0,1–0,15 mg/kg/dose. Mín 1,25 mg (5 gotas), Máx 5 mg (20 gotas). Conc: 5mg/ml. Diluir em 3 ml SF.' } },
+      { t: 'E', name: 'Salbutamol Spray 100mcg (com Aerocâmara)', d: {
+          titulo: '4 a 8 puffs com aerocâmara',
+          via: 'Inalatório a cada 20 min × 3, depois 1–4h',
+          obs: '<5 anos: 4 puffs. ≥5 anos: 8 puffs. SEMPRE com aerocâmara/espaçador em crianças.' } },
+      { t: 'E', name: 'Ipratrópio Nebulização', d: {
+          titulo: '250 mcg (<6a) ou 500 mcg (≥6a)',
+          via: 'Nebulização junto com Salbutamol',
+          obs: 'Associar nas primeiras 3 doses (a cada 20 min) em crise moderada/grave. Conc: 250mcg/ml.' } },
+      { t: 'A', name: 'Sulfato de Magnésio IV (Crise Grave)', d: {
+          id: 'mg_asma', base_mg_kg: 40,
+          sl: { min: 25, max: 50, step: 5, default: 40 },
+          dc: 500, ml: 1, ig: false, via: 'IV em SF 0,9% (20–30 min)', mx: 2000,
+          obs: '25–50 mg/kg/dose. Indicado em crise grave/refratária. Monitorar PA, reflexos e ECG.' } },
+      { t: 'A', name: 'Metilprednisolona IV', d: {
+          id: 'metilpred', base_mg_kg: 1,
+          sl: { min: 1, max: 2, step: 0.5, default: 1 },
+          dc: 40, ml: 1, ig: false, via: 'IV bolus', mx: 60,
+          obs: '1–2 mg/kg/dose. Conc: 40mg/ml. Máx 60 mg (sessão) ou 125 mg (status asmático).' } },
+      { t: 'B', name: 'Adrenalina Neb 1:1000 (Crupe)', d: {
+          co: 0.5, max: 5, unit: 'ml', via: 'Nebulização com O2',
+          obs: '0,5 ml/kg de Adrenalina 1:1000 (máx 5 ml). Diluir em 3 ml de SF. Observar 4h após (efeito rebote).' } }
+    ]
+  },
+
+  /* ---------- Cetoacidose Diabética ---------- */
+  {
+    id: 'dka', tc: 'urg',
+    name: '🍬 Cetoacidose Diabética (DKA)',
+    icon: 'fas fa-droplet',
+    items: [
+      { t: 'P', pid: 'dka_bolus',    name: 'Expansão Inicial — SF 0,9%' },
+      { t: 'P', pid: 'dka_insulina', name: 'Insulina Regular em BIC' },
+      { t: 'P', pid: 'dka_manut',    name: 'Manutenção (1,5× Holliday em 48h)' }
+    ]
+  },
+
+  /* ---------- Drogas Vasoativas em BIC ---------- */
+  {
+    id: 'vasoativas', tc: 'urg',
+    name: '💉 Drogas Vasoativas em BIC',
+    icon: 'fas fa-heart-pulse',
+    items: [
+      { t: 'P', pid: 'vaso_adre', name: 'Adrenalina (Epinefrina) BIC' },
+      { t: 'P', pid: 'vaso_nora', name: 'Noradrenalina BIC' },
+      { t: 'P', pid: 'vaso_dopa', name: 'Dopamina BIC' },
+      { t: 'P', pid: 'vaso_dobu', name: 'Dobutamina BIC' },
+      { t: 'P', pid: 'vaso_milr', name: 'Milrinona BIC' }
+    ]
+  },
+
+  /* ---------- Sedação / RSI ---------- */
+  {
+    id: 'rsi', tc: 'urg',
+    name: '💤 Sedação e Indução RSI',
+    icon: 'fas fa-bed-pulse',
+    items: [
+      { t: 'A', name: 'Fentanil IV (Analgesia/Indução)', d: {
+          id: 'fent', base_mg_kg: 0.002,
+          sl: { min: 0.001, max: 0.002, step: 0.0005, default: 0.002 },
+          dc: 0.05, ml: 1, ig: false, via: 'IV bolus lento (2 min)', mx: 0.1,
+          obs: '1–2 mcg/kg/dose. Conc: 50 mcg/ml. Cuidado: depressão respiratória e rigidez torácica.' } },
+      { t: 'B', name: 'Etomidato IV', d: {
+          co: 0.15, max: 15, unit: 'ml', via: 'IV bolus',
+          obs: '0,3 mg/kg/dose. Conc: 2mg/ml. Indução rápida sem instabilidade hemodinâmica. Risco de insuficiência suprarrenal.' } },
+      { t: 'A', name: 'Ketamina IV', d: {
+          id: 'keta_iv', base_mg_kg: 1.5,
+          sl: { min: 1, max: 2, step: 0.5, default: 1.5 },
+          dc: 50, ml: 1, ig: false, via: 'IV bolus lento', mx: 100,
+          obs: '1–2 mg/kg/dose IV. Conc: 50mg/ml. Cuidado em HIC e cardiopatia descompensada. Sialorreia: associar Atropina.' } },
+      { t: 'A', name: 'Ketamina IM', d: {
+          id: 'keta_im', base_mg_kg: 4,
+          sl: { min: 4, max: 5, step: 0.5, default: 4 },
+          dc: 50, ml: 1, ig: false, via: 'IM profundo', mx: 200,
+          obs: '4–5 mg/kg/dose IM. Conc: 50mg/ml. Início em 3–5 min. Útil sem acesso venoso.' } },
+      { t: 'A', name: 'Propofol IV', d: {
+          id: 'prop', base_mg_kg: 1.5,
+          sl: { min: 1, max: 2, step: 0.5, default: 1.5 },
+          dc: 10, ml: 1, ig: false, via: 'IV bolus lento', mx: 200,
+          obs: '1–2 mg/kg/dose. Conc: 10mg/ml. Pode causar hipotensão e bradicardia. Contraindicado em alergia a soja/ovo.' } },
+      { t: 'A', name: 'Succinilcolina IV (Despolarizante)', d: {
+          id: 'sux', base_mg_kg: 1.5,
+          sl: { min: 1, max: 2, step: 0.5, default: 1.5 },
+          dc: 100, ml: 1, ig: false, via: 'IV bolus', mx: 150,
+          obs: '1–2 mg/kg/dose. Conc: 100mg/ml. Início rápido (~30s). Cuidado: hipercalemia, hipertermia maligna. Evitar em queimados &gt;24h, paralisia crônica.' } },
+      { t: 'B', name: 'Rocurônio IV (Não-despolarizante)', d: {
+          co: 0.1, max: 10, unit: 'ml', via: 'IV bolus',
+          obs: '1 mg/kg/dose. Conc: 10mg/ml. Reversor: Sugamadex. Duração 30–60 min. Alternativa segura à Succinilcolina.' } }
+    ]
+  },
+
+  /* ---------- Inhaloterapia / Aerossóis ---------- */
+  {
+    id: 'inhalo',
+    name: 'INALATÓRIOS E NEBULIZAÇÕES (MANUTENÇÃO)',
+    icon: 'fas fa-wind',
+    items: [
+      { t: 'E', name: 'Beclometasona Spray 50/250mcg', d: {
+          titulo: '50–200 mcg 2× ao dia',
+          via: 'Inalatório (com espaçador)',
+          obs: 'Corticoide inalatório de manutenção. SEMPRE com aerocâmara em crianças. Lavar boca após uso.' } },
+      { t: 'E', name: 'Budesonida Susp. p/ Nebulização', d: {
+          titulo: '0,25 a 1 mg 2× ao dia',
+          via: 'Nebulização com O2 6–8 L/min',
+          obs: 'Lavar boca após uso. Indicado em laringite (Crupe) e asma de difícil controle.' } },
+      { t: 'E', name: 'Fluticasona Spray 50/125/250mcg', d: {
+          titulo: '50–100 mcg 2× ao dia',
+          via: 'Inalatório (com espaçador)',
+          obs: 'Corticoide inalatório de alta potência. Usar com aerocâmara.' } },
+      { t: 'E', name: 'Formoterol + Budesonida (Combinado)', d: {
+          titulo: '1 a 2 puffs 12/12h',
+          via: 'Inalatório (com espaçador se <5 anos)',
+          obs: 'Manutenção. LABA: NÃO usar isoladamente como resgate.' } },
+      { t: 'E', name: 'Soro Fisiológico 0,9% Nasal', d: {
+          titulo: '2 a 3 gotas em cada narina',
+          via: 'Nasal',
+          obs: 'Lavagem nasal a cada 3–4h. Útil em IVAS, rinite, congestão.' } }
+    ]
+  },
+
+  /* ============================================================
+     FLUIDOTERAPIA
+  ============================================================ */
+
   /* ---------- Fluidoterapia ---------- */
   {
     id: 'hidra_choque', tc: 'flu',

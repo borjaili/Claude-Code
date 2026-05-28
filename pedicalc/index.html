@@ -5,9 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PediCalc · Calculadora Pediátrica</title>
 
+  <meta name="description" content="Calculadora pediátrica avançada: doses por peso, fluidoterapia, antimicrobianos, vasoativas, calculadoras e scores clínicos.">
+  <meta name="theme-color" content="#1d53f0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PediCalc">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon.svg">
+
+  <!-- Aplica tema imediatamente para evitar flash claro/escuro -->
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem('pedicalc_theme') || 'auto';
+        var resolved = mode === 'auto'
+          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : mode;
+        document.documentElement.setAttribute('data-theme', resolved);
+        document.documentElement.setAttribute('data-theme-mode', mode);
+      } catch (e) {}
+    })();
+  </script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/print.css">
 </head>
 <body>
 
@@ -21,7 +47,7 @@
         <div class="brand-icon"><i class="fas fa-stethoscope"></i></div>
         <div>
           <div class="brand-name">Pedi<em>Calc</em></div>
-          <div class="brand-tag">Calculadora Pediátrica Avançada</div>
+          <div class="brand-tag">Calculadora Pediátrica Avançada · v3</div>
         </div>
       </div>
       <button class="btn-proto" data-open-modal="mmodal">
@@ -48,16 +74,16 @@
         </div>
         <h1 class="hero-h1">Cálculo de Doses<br><span class="hl">Pediátricas</span></h1>
         <p class="hero-sub">
-          Informe o <strong>peso do paciente</strong> e obtenha instantaneamente doses calculadas com
-          <strong>teto de segurança automático</strong>, concentrações ajustáveis e protocolos por
-          indicação clínica.
+          Informe o <strong>peso</strong> e (opcionalmente) a <strong>idade</strong> e obtenha instantaneamente
+          doses calculadas com <strong>teto adulto automático</strong>, protocolos por indicação, calculadoras
+          e scores clínicos.
         </p>
 
         <div class="hero-chips">
-          <span class="hchip"><i class="fas fa-shield-alt"></i> Teto adulto automático</span>
-          <span class="hchip"><i class="fas fa-sliders-h"></i> Concentração ajustável</span>
+          <span class="hchip"><i class="fas fa-bolt-lightning"></i> Emergências e Reanimação</span>
           <span class="hchip"><i class="fas fa-bacteria"></i> Antimicrobianos por indicação</span>
-          <span class="hchip"><i class="fas fa-star"></i> Protocolos VIP personalizados</span>
+          <span class="hchip"><i class="fas fa-heart-pulse"></i> Vasoativas em BIC</span>
+          <span class="hchip"><i class="fas fa-calculator"></i> Calculadoras + Scores</span>
         </div>
 
         <div class="input-glass">
@@ -66,14 +92,14 @@
               <label class="ig-label" for="peso">
                 <i class="fas fa-weight"></i> Peso do Paciente (kg) *
               </label>
-              <input class="ig-input" type="number" id="peso" placeholder="Ex: 12.5" min="0" step="0.1">
+              <input class="ig-input" type="number" id="peso" placeholder="Ex: 12.5" min="0" step="0.1" inputmode="decimal">
             </div>
             <div class="ig-group">
               <label class="ig-label" for="idade">
                 <i class="fas fa-calendar-alt"></i> Idade (opcional)
               </label>
               <div class="ig-row">
-                <input class="ig-input" type="number" id="idade" placeholder="Ex: 24" min="0" step="1">
+                <input class="ig-input" type="number" id="idade" placeholder="Ex: 24" min="0" step="1" inputmode="numeric">
                 <select class="ig-input" id="idu">
                   <option value="meses">Meses</option>
                   <option value="anos">Anos</option>
@@ -105,6 +131,29 @@
       </div>
     </div>
 
+    <!-- TOOLBAR: busca + ações -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fas fa-search search-ico"></i>
+        <input type="text" id="search" placeholder="Buscar medicação, indicação ou protocolo…" aria-label="Buscar">
+        <button class="clear-btn" id="clear-search" aria-label="Limpar busca">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <button class="tool-btn install" id="btn-install" hidden>
+        <i class="fas fa-download"></i> Instalar
+      </button>
+      <button class="tool-btn" id="btn-theme" title="Tema (Ctrl+L)">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="tool-btn" id="btn-print" title="Imprimir / Exportar PDF">
+        <i class="fas fa-print"></i>
+      </button>
+      <button class="tool-btn" id="btn-settings" title="Configurações" data-open-modal="settings-modal">
+        <i class="fas fa-gear"></i>
+      </button>
+    </div>
+
     <nav class="tabs-bar">
       <div class="tabs-row" id="tabs"></div>
     </nav>
@@ -118,8 +167,13 @@
       </div>
     </main>
 
+    <div class="print-footer">
+      Gerado por PediCalc · <span id="print-date"></span>
+    </div>
+
   </div>
 
+  <!-- MODAL: Novo Protocolo VIP -->
   <div id="mmodal" class="mover">
     <div class="mbox">
       <div class="mhd">
@@ -177,10 +231,77 @@
     </div>
   </div>
 
+  <!-- MODAL: Configurações -->
+  <div id="settings-modal" class="mover">
+    <div class="mbox">
+      <div class="mhd" style="background:linear-gradient(135deg,#334155,#0f172a)">
+        <div class="m-title"><i class="fas fa-gear"></i> Configurações</div>
+        <button class="btn-xm" data-close-modal="settings-modal">✕</button>
+      </div>
+      <div class="mbody">
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Tema</div>
+            <div class="settings-sublabel">Aparência do app</div>
+          </div>
+          <div class="seg-control" id="theme-seg">
+            <button class="seg-btn" data-theme="light"><i class="fas fa-sun"></i></button>
+            <button class="seg-btn" data-theme="auto">Auto</button>
+            <button class="seg-btn" data-theme="dark"><i class="fas fa-moon"></i></button>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Favoritos salvos</div>
+            <div class="settings-sublabel"><span id="fav-count">0</span> medicação(ões)</div>
+          </div>
+          <button class="danger-btn" id="clear-favs">Limpar</button>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Concentrações personalizadas</div>
+            <div class="settings-sublabel">Diluições salvas como padrão</div>
+          </div>
+          <button class="danger-btn" id="clear-conc">Restaurar</button>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Protocolos VIP</div>
+            <div class="settings-sublabel"><span id="vip-count">0</span> protocolo(s) personalizado(s)</div>
+          </div>
+          <button class="danger-btn" id="clear-vip">Limpar</button>
+        </div>
+
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Versão</div>
+            <div class="settings-sublabel">PediCalc v3.0 · PWA offline</div>
+          </div>
+          <button class="tool-btn" id="reload-app" title="Recarregar e atualizar cache">
+            <i class="fas fa-arrows-rotate"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts em ordem de dependência -->
+  <script src="assets/js/theme.js"></script>
   <script src="assets/js/db.js"></script>
   <script src="assets/js/templates.js"></script>
   <script src="assets/js/protocols.js"></script>
+  <script src="assets/js/calculators.js"></script>
+  <script src="assets/js/scores.js"></script>
   <script src="assets/js/helpers.js"></script>
+  <script src="assets/js/search.js"></script>
+  <script src="assets/js/favorites.js"></script>
+  <script src="assets/js/clipboard.js"></script>
+  <script src="assets/js/pwa.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

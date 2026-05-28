@@ -1,0 +1,17 @@
+{
+  "name": "PediCalc — Calculadora Pediátrica",
+  "short_name": "PediCalc",
+  "description": "Calculadora pediátrica avançada: doses, fluidoterapia, antimicrobianos, calculadoras e scores clínicos.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0e1a",
+  "theme_color": "#1d53f0",
+  "categories": ["medical", "health", "productivity"],
+  "icons": [
+    { "src": "assets/icons/icon.svg", "sizes": "any",     "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icons/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

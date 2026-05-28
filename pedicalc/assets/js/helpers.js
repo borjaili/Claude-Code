@@ -46,29 +46,47 @@ const DRUG_ICONS = {
   fluid: ['fas fa-tint',                     '#1d53f0', '#eff6ff']
 };
 
+const DRUG_ICONS_EXTRA = {
+  wind:  ['fas fa-wind',                     '#0891b2', '#ecfeff'],
+  spray: ['fas fa-spray-can',                '#0d9488', '#f0fdfa'],
+  bic:   ['fas fa-heart-pulse',              '#be123c', '#fff1f2'],
+  brain: ['fas fa-brain',                    '#7c3aed', '#faf5ff'],
+  retal: ['fas fa-poo',                      '#a16207', '#fef3c7']
+};
+
 function getDrugIcon(nome) {
   const n = nome.toLowerCase();
-  if (n.includes('inj') || n.includes('ampola'))                                    return DRUG_ICONS.inj;
-  if (n.includes('gota'))                                                            return DRUG_ICONS.gotas;
+  if (n.includes('bic') || n.includes('infus'))                                       return DRUG_ICONS_EXTRA.bic;
+  if (n.includes('nebuliz') || n.includes('aerossol') || n.includes('inalatóri'))    return DRUG_ICONS_EXTRA.wind;
+  if (n.includes('spray') || n.includes('aerosóis'))                                  return DRUG_ICONS_EXTRA.spray;
+  if (n.includes('retal'))                                                            return DRUG_ICONS_EXTRA.retal;
+  if (n.includes('inj') || n.includes('ampola') || n.includes('im/ev') || n.includes('iv/io'))  return DRUG_ICONS.inj;
+  if (n.includes('gota'))                                                             return DRUG_ICONS.gotas;
   if (n.includes('susp') || n.includes('xarope') || n.includes('sol. oral') || n.includes('alta dose')) return DRUG_ICONS.susp;
-  if (n.includes('cáps') || n.includes('comp'))                                      return DRUG_ICONS.pills;
-  if (n.includes('oftál') || n.includes('colí'))                                     return DRUG_ICONS.eye;
-  if (n.includes('creme') || n.includes('prata'))                                    return DRUG_ICONS.cream;
-  if (n.includes('vaginal') || n.includes('gel'))                                    return DRUG_ICONS.venus;
-  if (n.includes('pó'))                                                              return DRUG_ICONS.flask;
+  if (n.includes('cáps') || n.includes('comp'))                                       return DRUG_ICONS.pills;
+  if (n.includes('oftál') || n.includes('colí'))                                      return DRUG_ICONS.eye;
+  if (n.includes('creme') || n.includes('prata'))                                     return DRUG_ICONS.cream;
+  if (n.includes('vaginal') || n.includes('gel'))                                     return DRUG_ICONS.venus;
+  if (n.includes('pó'))                                                               return DRUG_ICONS.flask;
   if (n.includes('expansão') || n.includes('desidrat') || n.includes('tro') || n.includes('holliday')) return DRUG_ICONS.fluid;
   return DRUG_ICONS.rx;
 }
 
 /* ---------- Cores por categoria ---------- */
 const CATEGORY_COLORS = {
+  // Fluidoterapia
   hidra_choque:'#dc2626', hidra_planoc:'#d97706', hidra_manut:'#1d53f0', hidra_tro:'#059669',
+  // Emergências (grupo urg)
+  emergencia: '#dc2626', convulsao: '#7c3aed', asma: '#0284c7', dka: '#d97706',
+  vasoativas: '#be123c', rsi: '#3730a3',
+  // Antimicrobianos
   anti_oma:'#1d53f0',     anti_faring:'#0d9488',  anti_pac:'#0284c7',    anti_pele:'#ea580c',
   anti_itu:'#d97706',     anti_gastro:'#16a34a',  anti_fungos:'#7c3aed',
+  // Standalone
   analgesicos:'#dc2626',  antiemeticos:'#0891b2', antialergicos:'#7c3aed',
   laxantes:'#16a34a',     corticosteroides:'#b45309', sedativos:'#3730a3',
   antidotos:'#be123c',    oftalmologicos:'#0d9488',   queimaduras:'#ea580c',
-  ginecologicos:'#db2777', custom:'#7c3aed'
+  ginecologicos:'#db2777', inhalo:'#0891b2', custom:'#7c3aed'
 };
 
 function getCategoryColor(cat) {
